@@ -1,123 +1,64 @@
+# Guia: Nushell + Starship + Zoxide (Windows)
 
-# Guia de Configuração: Nushell + Starship + Zoxide (Windows)
+Passo a passo para montar o terminal moderno no Windows usando Nushell.
 
-Este guia contém o passo a passo para reproduzir o ambiente de terminal moderno no Windows utilizando Nushell.
-
-## 1. Instalação dos Pacotes
-Abra o **PowerShell** ou **CMD** e execute os comandos abaixo para instalar o shell e as ferramentas essenciais via Winget:
+## 1) Instalar os pacotes principais
+Execute no **PowerShell** ou **CMD** (via Winget):
 
 ```powershell
-# Instala o Shell principal
-winget install nushell
-
-# Instala o prompt personalizado (visual)
-winget install starship
-
-# Instala a navegação inteligente (substituto do cd)
-winget install zoxide
+winget install nushell       # Shell
+winget install starship      # Prompt visual
+winget install zoxide        # Navegação inteligente (substituto do cd)
 ```
 
-## 2. Instalação da Fonte (Nerd Font)
+## 2) Instalar a Nerd Font
+O Starship precisa de fonte com ícones.
 
-O Starship precisa de uma fonte especial para mostrar os ícones.
+1. Baixe **CaskaydiaCove Nerd Font** (Cascadia Code Nerd Font) em [ryanoasis/nerd-fonts - releases](https://github.com/ryanoasis/nerd-fonts/releases/latest).
+2. Extraia o `.zip` e instale `CaskaydiaCoveNerdFont-Regular.ttf`.
+   - Evite as versões Mono/Propo para não encolher os ícones.
 
-1. Baixe a fonte **Cascadia Code** (versão Nerd Font):
-    
-    - Link direto sugerido: [CaskaydiaCove Nerd Font (GitHub)](https://www.google.com/search?q=https://github.com/ryanoasis/nerd-fonts/releases/latest)
-        
-    - Procure pelo arquivo `.zip` do **CascadiaCode**.
-        
-2. Extraia o arquivo.
-    
-3. Instale o arquivo: **`CaskaydiaCoveNerdFont-Regular.ttf`**.
-    
-    - _Dica: Evite as versões "Mono" ou "Propo" para evitar ícones pequenos ou desalinhados._
-        
+## 3) Configurar o Windows Terminal
+1. Abra o **Windows Terminal** → `Ctrl + ,` para ir em Configurações.
+2. Em **Inicialização**, defina **Nushell** como perfil padrão.
+3. Em **Perfis > Nushell > Aparência**, selecione a fonte **CaskaydiaCove NF** e salve.
 
----
+## 4) Gerar arquivos de inicialização (no Nushell)
+Abra uma aba do **Nushell** e rode:
 
-## 3. Configurar o Windows Terminal
-
-1. Abra o **Windows Terminal**.
-    
-2. Vá em **Configurações (`Ctrl + ,`)**.
-    
-3. **Definir como Padrão:**
-    
-    - Na aba "Inicialização", mude o "Perfil padrão" para **Nushell**.
-        
-4. **Configurar a Fonte:**
-    
-    - No menu lateral, vá em **Perfis** > **Nushell** > **Aparência**.
-        
-    - Em "Tipo de fonte", selecione **CaskaydiaCove NF**.
-        
-    - Clique em **Salvar**.
-        
-
----
-
-## 4. Inicializar as Ferramentas (Dentro do Nushell)
-
-Agora, abra uma aba do **Nushell** e execute estes comandos para gerar os arquivos de inicialização do Starship e do Zoxide:
-
-```
-# Gera o arquivo de init do Starship
+```nu
 starship init nu | save -f ~/.starship.nu
-
-# Gera o arquivo de init do Zoxide
 zoxide init nushell | save -f ~/.zoxide.nu
 ```
 
-## 5. Editar o Arquivo de Configuração (`config.nu`)
+## 5) Editar `config.nu`
+Adicionar carregamento das ferramentas e remover o banner.
 
-Precisamos avisar o Nushell para carregar as ferramentas e remover o banner de boas-vindas.
+1. Abrir o arquivo de configuração:
 
-1. Abra o arquivo de configuração:
-    
-    Snippet de código
-    
-    ```
-    notepad $nu.config-path
-    ```
-    
-2. Vá até o **final do arquivo** e cole o seguinte bloco de código:
-    
-    Snippet de código
-    
-    ```
-    # --- Configurações Pessoais ---
-    
-    # Remove o banner de boas-vindas
-    $env.config.show_banner = false
-    
-    # Carrega o Zoxide (Navegação inteligente)
-    source ~/.zoxide.nu
-    
-    # Carrega o Starship (Prompt visual)
-    source ~/.starship.nu
-    ```
-    
-3. Salve o arquivo e reinicie o terminal.
-    
----
-
-## (Opcional) Ferramentas Extras Recomendadas
-
-Kit de ferramentas modernas escritas em Rust para complementar o Nushell:
-
-PowerShell
-
+```nu
+notepad $nu.config-path
 ```
-# Visualizador de arquivos (cat com cores)
-winget install bat
 
-# Busca ultra rápida em arquivos (grep melhorado)
-winget install ripgrep
+2. No final do arquivo, adicionar:
 
-# Buscador difuso (Fuzzy Finder)
-winget install fzf
+```nu
+# --- Configurações Pessoais ---
+$env.config.show_banner = false
+source ~/.zoxide.nu
+source ~/.starship.nu
+source ~/.carapace.nu
+```
 
-# Interface gráfica para Git no terminal
-winget install lazygit
+3. Salvar e reiniciar o terminal.
+
+## Extras (opcional)
+Ferramentas úteis (todas via Winget):
+
+```powershell
+winget install bat      # cat com cores
+winget install ripgrep  # busca muito rápida (grep melhorado)
+winget install fzf      # fuzzy finder
+winget install lazygit  # interface de Git no terminal
+winget install carapace # autocompletes para CLIs
 ```
