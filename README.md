@@ -1,6 +1,6 @@
 # Dev Environment
 
-Repositório para reconstruir meu setup de desenvolvimento no Windows/WSL. Aqui estão os guias e arquivos que uso sempre que formato a máquina.
+Repositório para reconstruir o meu setup de desenvolvimento no Windows/WSL. Aqui estão os guias e arquivos que uso sempre que formato a máquina.
 
 ## Visão geral
 - **WSL + Node/NPM + Codex**: instruções em `Codex.md`.
